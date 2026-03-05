@@ -34,11 +34,18 @@ def cargar_capas(json_path):
     return capas
 
 def cargar_entrada(file_path):
-    data = json.load(file_path)
+    data = np.load(file_path)
     if "images" not in data.keys() or "labels" not in data.keys():
         raise ValueError("ERRORRROROROROR")
     imagenes = data["images"]
     labels = data["labels"]
+    
+    if len(imagenes.shape) == 3:
+        input = imagenes.reshape(imagenes.shape[0], -1)
+    elif len(imagenes.shape) == 2:
+        input = imagenes.reshape(-1)
+    else:
+        raise ValueError("Valor no intente caso")
 
-    return {imagenes, labels}
+    return input/255, labels
 
