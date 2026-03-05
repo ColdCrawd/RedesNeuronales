@@ -16,4 +16,10 @@ class CapaDensa:
         transferencia = np.dot(entradas, self.pesos) + self.sesgos
         self.output = self.activacion(transferencia)
 
-        
+    def prediccion(self):
+        return np.argmax(self.output, axis=1)
+
+    def precision(self, labels):
+        predicho = np.argmax(self.output, axis=1)
+        return np.mean(predicho == labels)
+    

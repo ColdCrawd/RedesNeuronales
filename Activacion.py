@@ -4,9 +4,8 @@ import numpy as np
 def step_function(x):
     return np.where(x>=0, 1, 0)
 
-
 #Sigmoide
-def sigmoide(x):
+def sigmoid(x):
     return 1/(1+np.exp(-x))
 
 #Tanh

@@ -6,7 +6,7 @@ import Activacion as FA
 
 MAPA_ACTIVACIONES = {
     "relu": FA.relu,
-    "sigmoide": FA.sigmoide,
+    "sigmoid": FA.sigmoid,
     "tanh": FA.tanh,
     "step": FA.step_function,
     "leaky_relu": FA.leaky_relu,
@@ -14,7 +14,7 @@ MAPA_ACTIVACIONES = {
     "softmax": FA.softmax
 }
 
-def init(json_path):
+def cargar_capas(json_path):
     with open(json_path, "r") as data:
         red = json.load(data)
     if "layers" not in red.keys():
@@ -32,3 +32,13 @@ def init(json_path):
             raise ValueError("No hay Sesgos, tonoto")
         capas.append(CapaDensa(layer["W"], layer["b"],  MAPA_ACTIVACIONES[layer["activation"]]))
     return capas
+
+def cargar_entrada(file_path):
+    data = json.load(file_path)
+    if "images" not in data.keys() or "labels" not in data.keys():
+        raise ValueError("ERRORRROROROROR")
+    imagenes = data["images"]
+    labels = data["labels"]
+
+    return {imagenes, labels}
+
