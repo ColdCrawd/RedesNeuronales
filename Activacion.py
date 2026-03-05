@@ -11,7 +11,7 @@ def sigmoide(x):
 
 #Tanh
 def tanh(x):
-    np.tanh(x)
+    return np.tanh(x)
 
 #Relu
 def relu(x):
@@ -24,9 +24,9 @@ def leaky_relu(x, alpha = 0.01):
 
 #Telu
 def telu(x, alpha = 0.01):
-    return np.where(x>=0, x, alpha(np.exp(x)-1))
+    return np.where(x>=0, x, alpha*(np.exp(x)-1))
 
 #Softmax
 def softmax(x):
-    exp = np.exp(x-np.max(x))
-    return exp/np.sum(exp, axis=0)
+    exp = np.exp(x-np.max(x, axis=1, keepdims=True))
+    return exp/np.sum(exp, axis=1, keepdims=True)
