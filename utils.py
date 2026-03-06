@@ -42,10 +42,8 @@ def cargar_entrada(file_path):
     
     if len(imagenes.shape) == 3:
         input = imagenes.reshape(imagenes.shape[0], -1)
-    elif len(imagenes.shape) == 2:
-        input = imagenes.reshape(-1)
     else:
-        raise ValueError("Valor no intente caso")
+        input = imagenes.reshape(-1)
 
     return input/255, labels
 
