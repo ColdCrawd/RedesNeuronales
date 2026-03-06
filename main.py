@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 
 from RedNeuronal import RedNeuronal
 from utils import cargar_capas, cargar_entrada
+import random
 
 red_path = sys.argv[1]
 data_path = sys.argv[2]
@@ -23,37 +24,25 @@ presiciones = 0
 for imagen, label in zip(input, labels):
     red.forward(imagen.reshape(1, -1))
     presiciones += red.precision(label)
-
+    
     if label != red.prediccion():
-        incorrectas.append(imagen)
+        incorrectas.append((imagen, label, red.prediccion()[0]))
 
 print( presiciones /len(labels))
 
 
-"""
-input, labels = cargar_entrada("./mnist_dataset/mnist_custom_ds.npz")
-capas = cargar_capas("./mnist_dataset/mnist_mlp_pretty.json")
-input_2 = [input[2]]
-capas[0].forward(input)
-#print(capas[0].output)
-capas[1].forward(capas[0].output)
-print(capas[1].output)
-for value in capas[1].output:
-    print(np.max(value), np.argmax(value))
 
-print("OUTPUT\n", capas[1].output)
-print(capas[1].prediccion())
-print(capas[1].precision(labels))
-"""
-"""
-data = np.load("./mnist_dataset/mnist_custom_ds.npz")
-images = data["images"]
-labels = data["labels"]
-print(images.shape)
-input = images.reshape(10, -1)
-input = input/255
-"""
-
-    
+import matplotlib.pyplot as plt
+plt.figure(figsize=(6,6))
 
 
+min_random_images = min(len(incorrectas), 16)
+imagenes_rnd = random.sample(incorrectas, min_random_images)
+
+for i in range(min_random_images):
+    plt.subplot(4, 4, i+1)
+    img, lbl, prediccion = imagenes_rnd[i]
+    plt.imshow(img.reshape(28, 28), cmap="gray")
+    plt.title(f"Label: {lbl} | P: {prediccion}")
+    plt.axis("off")
+plt.show()
